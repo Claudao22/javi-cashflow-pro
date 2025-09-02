@@ -31,6 +31,12 @@ interface Client {
   lastUpdate: string;
   pendingDocuments: number;
   totalPaid: number;
+  regime: string;
+  atividade: string;
+  proximoDAS: string;
+  impostosMensais: {
+    [key: string]: number;
+  };
 }
 
 export const ClientManagement = () => {
@@ -58,7 +64,14 @@ export const ClientManagement = () => {
       startDate: "2023-06-15",
       lastUpdate: "2024-01-15",
       pendingDocuments: 0,
-      totalPaid: 38500.00
+      totalPaid: 38500.00,
+      regime: "Simples Nacional",
+      atividade: "Consultoria em TI",
+      proximoDAS: "20/02/2024",
+      impostosMensais: {
+        das: 2450.00,
+        iss: 380.00
+      }
     },
     {
       id: "empresa-b",
@@ -71,7 +84,16 @@ export const ClientManagement = () => {
       startDate: "2023-08-20",
       lastUpdate: "2024-01-10",
       pendingDocuments: 2,
-      totalPaid: 16000.00
+      totalPaid: 16000.00,
+      regime: "Lucro Real",
+      atividade: "Comércio Varejista",
+      proximoDAS: "25/02/2024",
+      impostosMensais: {
+        pis: 890.00,
+        cofins: 4120.00,
+        icms: 5800.00,
+        irpj: 3200.00
+      }
     },
     {
       id: "empresa-c",
@@ -84,7 +106,14 @@ export const ClientManagement = () => {
       startDate: "2023-03-10",
       lastUpdate: "2024-01-12",
       pendingDocuments: 0,
-      totalPaid: 28000.00
+      totalPaid: 28000.00,
+      regime: "Microempresa",
+      atividade: "Prestação de Serviços",
+      proximoDAS: "18/02/2024",
+      impostosMensais: {
+        das: 1200.00,
+        iss: 280.00
+      }
     },
     {
       id: "empresa-d",
@@ -97,7 +126,15 @@ export const ClientManagement = () => {
       startDate: "2023-01-05",
       lastUpdate: "2023-12-15",
       pendingDocuments: 1,
-      totalPaid: 50400.00
+      totalPaid: 50400.00,
+      regime: "Lucro Presumido",
+      atividade: "Indústria e Comércio",
+      proximoDAS: "15/02/2024",
+      impostosMensais: {
+        irpj: 1800.00,
+        csll: 720.00,
+        icms: 2200.00
+      }
     }
   ]);
 
@@ -134,7 +171,11 @@ export const ClientManagement = () => {
       startDate: new Date().toISOString().split('T')[0],
       lastUpdate: new Date().toISOString().split('T')[0],
       pendingDocuments: 0,
-      totalPaid: 0
+      totalPaid: 0,
+      regime: "A definir",
+      atividade: "A definir",
+      proximoDAS: "A definir",
+      impostosMensais: {}
     };
 
     setClients([client, ...clients]);
@@ -346,6 +387,39 @@ export const ClientManagement = () => {
                     <span>{client.phone}</span>
                   </div>
                 )}
+
+                {/* Informações de PJ */}
+                <div className="space-y-2 text-sm bg-muted/30 p-3 rounded-lg">
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">Regime:</span>
+                    <Badge variant="outline" className="text-xs">
+                      {client.regime}
+                    </Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">Atividade:</span>
+                    <span className="text-xs">{client.atividade}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">Próximo DAS:</span>
+                    <span className="text-xs font-medium text-danger">{client.proximoDAS}</span>
+                  </div>
+                </div>
+
+                {/* Impostos Mensais */}
+                <div className="space-y-2">
+                  <p className="text-sm font-medium text-muted-foreground">Impostos Mensais:</p>
+                  <div className="space-y-1">
+                    {Object.entries(client.impostosMensais).map(([imposto, valor]) => (
+                      <div key={imposto} className="flex justify-between text-sm">
+                        <span className="text-muted-foreground uppercase">{imposto}:</span>
+                        <span className="font-medium">
+                          R$ {valor.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
 
                 <div className="flex items-center justify-between pt-2 border-t">
                   <div className="flex items-center space-x-2 text-sm">

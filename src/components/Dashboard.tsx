@@ -6,6 +6,7 @@ import { CashFlowSection } from "./CashFlowSection";
 import { ExpenseTracking } from "./ExpenseTracking";
 import { ClientManagement } from "./ClientManagement";
 import { FinancialOverview } from "./FinancialOverview";
+import { ReportsSection } from "./ReportsSection";
 import { 
   TrendingUp, 
   TrendingDown, 
@@ -178,14 +179,7 @@ export const Dashboard = () => {
           </TabsContent>
 
           <TabsContent value="reports" className="space-y-6">
-            <Card className="shadow-card">
-              <CardHeader>
-                <CardTitle>Relatórios Financeiros</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">Seção de relatórios em desenvolvimento...</p>
-              </CardContent>
-            </Card>
+            <ReportsSection clients={clients} selectedClient={selectedClient} onClientChange={setSelectedClient} />
           </TabsContent>
         </Tabs>
       </div>
